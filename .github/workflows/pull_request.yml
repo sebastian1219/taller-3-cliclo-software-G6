@@ -37,5 +37,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint TypeScript
+      - name: Unit Test TypeScript
         run: npm run test:unit
