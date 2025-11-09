@@ -1,4 +1,4 @@
-const username = "admin'; DROP TABLE Users; --";
+const username = 'admin\'; DROP TABLE Users; --';
 const queryString = `SELECT * FROM Users WHERE username='${username}'`;
 
 // XSS
