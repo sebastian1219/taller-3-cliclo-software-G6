@@ -11,6 +11,10 @@ export default [
     languageOptions: {
       parser: tsParser,
       sourceType: 'module',
+      ecmaVersion: 'latest',
+      globals: {
+        node: true, // reconoce console, process, etc.
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
@@ -19,6 +23,7 @@ export default [
       semi: ['error', 'always'],
       quotes: ['error', 'single'],
       '@typescript-eslint/no-unused-vars': ['warn'],
+      'no-undef': 'off', // evita falsos positivos en entorno Node
     },
   },
 ];

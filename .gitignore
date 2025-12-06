@@ -2,3 +2,30 @@
 .DS_Store
 node_modules
 dist
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+coverage/
+lcov-report/
+*.lcov
+
+# Build outputs
+dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE/editor configs
+.vscode/
+.idea/
+.DS_Store
+
+# Environment variables
+.env

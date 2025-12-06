@@ -11,3 +11,4 @@ function fetchData() {
 }
 
 fetchData();
+export { githubToken };

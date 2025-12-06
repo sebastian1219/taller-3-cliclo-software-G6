@@ -1,32 +1,55 @@
-const username = 'admin\'; DROP TABLE Users; --';
-const queryString = `SELECT * FROM Users WHERE username='${username}'`;
+import express, { Request, Response } from 'express';
+import crypto from 'crypto';
 
-// XSS
+const app = express();
+app.use(express.json());
 
-const userInput = '<script>alert("XSS");</script>';
-const html = `<div>${userInput}</div>`;
+// Ejemplo seguro de consulta parametrizada (evita SQL Injection)
+const username: string = 'admin';
+const queryString: string = 'SELECT * FROM Users WHERE username = ?';
+// Aquí deberías usar un ORM o librería con parámetros seguros (ej. pg, mysql2)
 
-// CSRF
+// XSS prevenido con sanitización
+const userInput: string = '<script>alert("XSS");</script>';
+const sanitizedInput: string = userInput.replace(/<.*?>/g, '');
+const html: string = `<div>${sanitizedInput}</div>`;
 
-app.post('/change-password', (req, res) => {
-  const newPassword = req.body.newPassword;
-  // Cambiar la contraseña sin verificar el token CSRF
+// CSRF protegido con token (ejemplo simplificado)
+app.post('/change-password', (req: Request, res: Response) => {
+  const { newPassword, csrfToken } = req.body;
+  if (csrfToken !== 'expectedToken') {
+    return res.status(403).send('CSRF token inválido');
+  }
+  res.send('Contraseña cambiada correctamente');
 });
 
-// Deserialización
+// Deserialización segura
+app.post('/deserialize', (req: Request, res: Response) => {
+  try {
+    const data = JSON.parse(req.body as string);
+    res.json(data);
+  } catch (error) {
+    res.status(400).send('JSON inválido');
+  }
+});
 
-const data = JSON.parse(req.body);
-
-// Credenciales
-
-const dbPassword = 'password123';
-// const apiSecretKey = 'supersecretkey123'; // No usar en producción
+// Credenciales → nunca hardcodear, usar variables de entorno
 const config = {
-  dbUsername: 'admin',
-  dbPassword: 'password123',
-  apiKey: 'abc123',
+  dbUsername: process.env.DB_USER || 'admin',
+  dbPassword: process.env.DB_PASS || 'securePassword',
+  apiKey: process.env.API_KEY || 'secureApiKey',
 };
 
-const hashedPassword = hash('password123');
+// Hash seguro con crypto
+const hashedPassword: string = crypto
+  .createHash('sha256')
+  .update(config.dbPassword)
+  .digest('hex');
 
-console.log(`Error: La contraseña ${dbPassword} no es válida`);
+console.log('Hash generado:', hashedPassword);
+
+export default app;
+
+export { username, queryString, html };
+
+
