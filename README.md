@@ -1,3 +1,5 @@
+configuración codeSQL y synk
+
 # Github NPM Registry
 
 ## About this article
