@@ -1,6 +1,21 @@
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "weekly"
+    groups:
+      eslint:
+        patterns:
+          - "eslint*"
+      jest:
+        patterns:
+          - "jest*"
+      babel:
+        patterns:
+          - "babel*"
+      tooling:
+        patterns:
+          - "husky"
+          - "lockfile-lint"
+          - "prettier*"
