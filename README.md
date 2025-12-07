@@ -36,7 +36,29 @@ Funciones principales:
 •Equipos de desarrollo que trabajan en la nube y usan plataformas DevOps/SaaS.
 •Proyectos de software que buscan calidad, seguridad y mantenibilidad continua. 
 
-### Reporte de SonarQube
+### Creación Token desde SonarQube
 ![SonarQube Report](docs/screenshots/sonar_qube.png)
+
+
+### agregar Sonar Token a github
+![SonarQube token github](docs/screenshots/sonar_qube.png)
+
+
+### visualización token
+![SonarQube token github](docs/screenshots/repo_sonar_token.png)
+
+
+
+una vez que agregamos el token a nuestro repositorio para permitir la sincronización. generamos un push y deberías visualizar nuestro worflows funcionando , y de esa manera podemos darnos cuenta que nuestro pipeline CI esta funcionando
+
+
+### visualización worflows
+![workflows](docs/screenshots/action_github.png)
+
+
+
+
+
+
 
 
