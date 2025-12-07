@@ -24,7 +24,8 @@ const jestConfig = {
   coverageProvider: 'v8',
   coverageReporters: ['text', 'lcov'],
   coverageDirectory: 'coverage',
-  setupFiles: ['<rootDir>/test/setup/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/test/setup/jest.setup.js'],
+
 };
 
 module.exports = jestConfig;
