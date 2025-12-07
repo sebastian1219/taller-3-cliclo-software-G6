@@ -1,3 +1,4 @@
+// jest.config.cjs
 // @ts-check
 /** @type {import('@jest/types').Config.InitialOptions} */
 const jestConfig = {
@@ -21,7 +22,7 @@ const jestConfig = {
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   coverageProvider: 'v8',
-  coverageReporters: ['lcov', 'text', 'json-summary'],
+  coverageReporters: ['text', 'lcov', 'json'], // ✅ combinación estable
   coverageDirectory: 'coverage',
   setupFiles: ['<rootDir>/test/setup/jest.setup.js'],
   coverageThreshold: {
@@ -34,6 +35,6 @@ const jestConfig = {
   },
 };
 
-module.exports = jestConfig; // ✅ correcto en CommonJS
+module.exports = jestConfig;
 
 
