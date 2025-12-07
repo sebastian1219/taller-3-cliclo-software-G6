@@ -16,10 +16,11 @@ const jestConfig = {
     '!**/src/constants/**',
     '!**/src/config/**',
     '!**/src/structures/**',
-    '!**/src/quality/**', // excluye módulos inseguros/dummy
+    '!**/src/quality/**',
   ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  coverageProvider: 'v8',
   coverageReporters: ['lcov', 'text', 'json-summary'],
   coverageDirectory: 'coverage',
   setupFiles: ['<rootDir>/test/setup/jest.setup.js'],
@@ -33,5 +34,6 @@ const jestConfig = {
   },
 };
 
-module.exports = jestConfig;
+module.exports = jestConfig; // ✅ correcto en CommonJS
+
 
