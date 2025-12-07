@@ -103,9 +103,7 @@ jobs:
           image: ${{ github.repository }}:pr-${{ github.run_id }}
           only-severities: critical,high
           exit-code: true
-
-
-
+          local: true
 
   docker-push:
     runs-on: ubuntu-latest
