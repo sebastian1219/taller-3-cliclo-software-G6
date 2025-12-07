@@ -5,16 +5,23 @@ export abstract class StringValueObject {
     this.value = value;
   }
 
-  equalsTo(anotherValue: string): boolean {
-    return this.value === anotherValue;
+  // Permite comparar contra otro StringValueObject o contra un string
+  equalsTo(anotherValue: StringValueObject | string): boolean {
+    if (typeof anotherValue === "string") {
+      return this.value === anotherValue;
+    }
+    return this.value === anotherValue.value;
   }
 
   isEmpty(): boolean {
     return this.value == null || this.value.trim() === '';
   }
 
-  differentTo(anotherValue: string): boolean {
-    return this.value !== anotherValue;
+  differentTo(anotherValue: StringValueObject | string): boolean {
+    if (typeof anotherValue === "string") {
+      return this.value !== anotherValue;
+    }
+    return this.value !== anotherValue.value;
   }
 
   hasMoreCharacterThan(length = 30): boolean {
@@ -29,5 +36,3 @@ export abstract class StringValueObject {
     return this.value;
   }
 }
-
-
