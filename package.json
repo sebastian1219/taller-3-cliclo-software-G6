@@ -42,7 +42,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "lint:ci": "npm run lint:fix && npm run format && npm run sort",
-    "prepare": "is-ci || husky install",
+    "prepare": "command -v is-ci >/dev/null 2>&1 && is-ci || true; command -v husky >/dev/null 2>&1 && husky install || true"
     "prepublishOnly": "npm run build:ci",
     "sort": "sort-package-json package.json",
     "test": "jest --coverage",
@@ -99,7 +99,7 @@
     "@typescript-eslint/parser": "^5.62.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "dts-bundle-generator": "^6.13.0",
-    "eslint": "^8.57.1",
+    "eslint": "^8.57.1",    
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-node": "^4.1.0",
