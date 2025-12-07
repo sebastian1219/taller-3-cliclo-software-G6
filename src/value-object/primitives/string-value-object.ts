@@ -10,7 +10,7 @@ export abstract class StringValueObject {
   }
 
   isEmpty(): boolean {
-    return !this.value;
+    return this.value == null || this.value.trim() === "";
   }
 
   differentTo(anotherValue: string): boolean {
@@ -18,14 +18,16 @@ export abstract class StringValueObject {
   }
 
   hasMoreCharacterThan(length = 30): boolean {
-    return this.value.length > length ? true : false;
+    return this.value.length > length;
   }
 
   hasLessCharacterThan(length = 5): boolean {
-    return this.value.length < length ? true : false;
+    return this.value.length < length;
   }
 
   toString(): string {
     return this.value;
   }
 }
+
+
