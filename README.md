@@ -55,6 +55,103 @@ una vez que agregamos el token a nuestro repositorio para permitir la sincroniza
 ### visualización worflows
 ![workflows](docs/screenshots/action_github.png)
 
+para crear el worflows se crea el archivo security.yml, donde se encargara de 
+Synk --- detectar vulnerabilidades en dependencias.
+GHAS (GitHub Advance Security) --- activar CodeQL, secret scanning y dependency review.
+Docker Scout --- mas adelante, cuando contruyamos la imagen Docker.
+
+
+### sincronización sonarQube
+![workflows](docs/screenshots/sonar_qube_observabilidad.png)
+
+
+### se Accede a Synk para generar token
+![workflows](docs/screenshots/sincronizacion_token_synk.png)
+
+
+Se genera el token el cual se sincroniza con el repositorio de github para el análisis
+
+### token synk en github
+![workflows](docs/screenshots/agregar_token_github.png.png)
+
+### visualización tokens
+![workflows](docs/screenshots/visualizacion_tokens.png)
+
+
+Para probar que esta funcionando de instala snyk, se autentica con el token generado desde snyk, y se emplea el test, en el podemos observar que esta sincronizado y funcionando con nuestro repositorio GitHub
+
+
+### synk test desde la shell
+![workflows](docs/screenshots/synk_test.png)
+
+
+
+
+### visualización permisos script de seguridad
+![workflows](docs/screenshots/permiso_codeql.png)
+
+
+en este fragmento se detallan permisos
+en el script de securiyy.yml se puede detallar
+que se habilita CodeQL, puede subir resultados a la pestaña security -- Code Scanning alerts.
+
+Jobs:
+
+Snyk: corre en cada push/PR, usa tu SNYK_TOKEN y ya vimos que detecta vulnerabilidades.
+CodeQL: ahora sí tiene permisos para subir hallazgos.
+Dependency Review: condicionado con if: github.event_name == 'pull_request', así no falla en pushes y solo corre en PRs (que es su propósito).
+Triggers:
+Corre en push y pull_request hacia develop y main.
+Corre también en un cron semanal (lunes a las 03:00 UTC).
+
+✅ Resultado esperado
+En cada push/PR, Snyk y CodeQL se ejecutan.
+En PRs, además corre Dependency Review.
+Los hallazgos de CodeQL aparecerán en la pestaña Security → Code scanning alerts del repo.
+Los hallazgos de Snyk se verán en los logs del workflow y también en la pestaña Security → Dependabot/Snyk si habilitas la integración.
+
+
+
+
+### sincronización desde github
+![workflows](docs/screenshots/visualizacion_synk_codeql.png)
+
+se puede observar al momento del push, como synk y codeQl analizan el pipeline 
+
+
+
+### visualización workflows
+![workflows](docs/screenshots/workflows.png)
+
+que significan los 38 runs
+
+Dependabot: Cada vez que Dependabot abre o sincroniza un PR para actualizar una dependencia (eslint-plugin-jest, eslint-config-prettier, husky, etc.), se disparan automáticamente tus workflows:
+CI Pipeline → corre tus pruebas de integración continua.
+Security Pipeline → corre Snyk, CodeQL y Dependency Review sobre ese PR.
+Dependabot Updates → registro del propio bot cuando actualiza el lock file.
+Tus commits manuales (fix: upgrade chokidar…, fix: corrige indentación…) también disparan ambos pipelines. Por eso ves runs duplicados: uno para CI y otro para Security en cada push/PR.
+
+✅ Lo que indica que está bien
+CI Pipeline: corre rápido (20–40s) y valida que el proyecto compile/testee.
+Security Pipeline: tarda más (1m+) porque hace análisis de dependencias y código.
+Dependabot: genera muchos runs seguidos porque está actualizando varias librerías dev (eslint, husky, babel-plugin-module-resolver, etc.).
+👉 En un laboratorio de seguridad es normal ver decenas de runs en poco tiempo, especialmente cuando Dependabot está activo y tu workflow dispara tanto en push como en pull_request.
+Para evitar que dependabot dispare en cada Pull request un análisis y ejecute muchos disparadores se agrupan 
+
+
+
+
+### visualización workflows
+![workflows](docs/screenshots/agrupacion.png)
+
+en este código podemos observar lo siguiente
+
+groups → Dependabot ya no abre un PR por cada paquete, sino que agrupa:
+Todos los paquetes que empiezan con eslint en un solo PR.
+Todos los relacionados con jest en otro.
+Todos los de babel en otro.
+Herramientas como husky, lockfile-lint, prettier en otro.
+
 
 
 
