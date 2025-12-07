@@ -34,24 +34,24 @@
     "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/app/server/Index.ts",
     "ext": "ts, js"
   },
-  "scripts": {
-    "build": "rimraf dist && tsc",
-    "build:ci": "npm run build && npm run types",
-    "types": "dts-bundle-generator --config dts-generator.json",
-    "format": "prettier \"src/**/*.[jt]s?(x)\" --write",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "lint:ci": "npm run lint:fix && npm run format && npm run sort",
-    "scripts": {
-    "prepare": "if [ -f ./node_modules/.bin/husky ]; then husky install; fi"
-    "prepublishOnly": "npm test && npm run build",
-    "sort": "sort-package-json package.json",
-    "test": "jest --coverage",
-    "test:unit": "jest --passWithNoTests",
-    "test:coverage": "jest --coverage",
-    "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
-    "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%"
-  },
+ "scripts": {
+  "build": "rimraf dist && tsc",
+  "build:ci": "npm run build && npm run types",
+  "types": "dts-bundle-generator --config dts-generator.json",
+  "format": "prettier \"src/**/*.[jt]s?(x)\" --write",
+  "lint": "eslint src",
+  "lint:fix": "eslint src --fix",
+  "lint:ci": "npm run lint:fix && npm run format && npm run sort",
+  "prepare": "if [ -f ./node_modules/.bin/husky ]; then husky install; fi",
+  "prepublishOnly": "npm test && npm run build",
+  "sort": "sort-package-json package.json",
+  "test": "jest --coverage",
+  "test:unit": "jest --passWithNoTests",
+  "test:coverage": "jest --coverage",
+  "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
+  "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%"
+}
+
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
