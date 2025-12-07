@@ -1,20 +1,28 @@
-import FirstName from '../../../value-object/primitives/StringValueObject/__mocks__/FirstName'
-import { WordMother } from '../../../mother-object/WordMother';
+import { StringValueObject } from "../../../../src/value-object/primitives/string-value-object";
 
-describe('StringValueObject', () => {
-  describe('is empty', () => {
-    it(`should return "true" if the "firstName" are empty`, () => {
-      const firstName = new FirstName(WordMother.random(0))
-      const expected = firstName.isEmpty()
+// Creamos una subclase concreta para poder instanciar
+class TestStringValueObject extends StringValueObject {}
 
-      expect(expected).toBe(true);
-    })
+describe("StringValueObject › isEmpty", () => {
+  it("should return true for empty string", () => {
+    const obj = new TestStringValueObject("");
+    expect(obj.isEmpty()).toBe(true);
+  });
 
-    it(`should return "false" if the "firstName" are empty`, () => {
-      const firstName = new FirstName(WordMother.random())
-      const expected = firstName.isEmpty()
+  it("should return true for spaces", () => {
+    const obj = new TestStringValueObject("   ");
+    expect(obj.isEmpty()).toBe(true);
+  });
 
-      expect(expected).toBe(false);
-    })
-  })
-})
+  it("should return false for non-empty string", () => {
+    const obj = new TestStringValueObject("Juan");
+    expect(obj.isEmpty()).toBe(false);
+  });
+
+  it("should return true for null or undefined", () => {
+    const objNull = new TestStringValueObject(null as any);
+    const objUndefined = new TestStringValueObject(undefined as any);
+    expect(objNull.isEmpty()).toBe(true);
+    expect(objUndefined.isEmpty()).toBe(true);
+  });
+});
