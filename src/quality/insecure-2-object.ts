@@ -4,11 +4,6 @@ import crypto from 'crypto';
 const app = express();
 app.use(express.json());
 
-// Ejemplo seguro de consulta parametrizada (evita SQL Injection)
-const username: string = 'admin';
-const queryString: string = 'SELECT * FROM Users WHERE username = ?';
-// Aquí deberías usar un ORM o librería con parámetros seguros (ej. pg, mysql2)
-
 // XSS prevenido con sanitización
 const userInput: string = '<script>alert("XSS");</script>';
 const sanitizedInput: string = userInput.replace(/<.*?>/g, '');
@@ -20,6 +15,9 @@ app.post('/change-password', (req: Request, res: Response) => {
   if (csrfToken !== 'expectedToken') {
     return res.status(403).send('CSRF token inválido');
   }
+  // ahora sí usamos newPassword
+  const hashed = crypto.createHash('sha256').update(newPassword).digest('hex');
+  console.log('Nueva contraseña hasheada:', hashed);
   res.send('Contraseña cambiada correctamente');
 });
 
@@ -46,10 +44,10 @@ const hashedPassword: string = crypto
   .update(config.dbPassword)
   .digest('hex');
 
+console.log('Usuario DB:', config.dbUsername);
 console.log('Hash generado:', hashedPassword);
 
 export default app;
-
-export { username, queryString, html };
+export { html };
 
 

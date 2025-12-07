@@ -7,7 +7,7 @@ export abstract class StringValueObject {
 
   // Permite comparar contra otro StringValueObject o contra un string
   equalsTo(anotherValue: StringValueObject | string): boolean {
-    if (typeof anotherValue === "string") {
+    if (typeof anotherValue === 'string') {
       return this.value === anotherValue;
     }
     return this.value === anotherValue.value;
@@ -18,7 +18,7 @@ export abstract class StringValueObject {
   }
 
   differentTo(anotherValue: StringValueObject | string): boolean {
-    if (typeof anotherValue === "string") {
+    if (typeof anotherValue === 'string') {
       return this.value !== anotherValue;
     }
     return this.value !== anotherValue.value;
