@@ -155,7 +155,155 @@ Herramientas como husky, lockfile-lint, prettier en otro.
 
 
 
+Para evitar estos errores de compatibilidad entre versiones, se debe modificar el package.json y el security.yaml
 
+
+### visualización despligue fallido
+![workflows](docs/screenshots/11.png.png)
+
+
+
+podemos ver dos disparadores, en el que se visualiza el error se puede ver que son temas de variables, lo que quiere decir que nuestro análisis encuentra fallas. En otras palabras esta analizando nuestro código
+
+
+### visualización disparadores
+![workflows](docs/screenshots/12.png.png)
+
+### visualización disparadores
+![workflows](docs/screenshots/13.png.png)
+
+
+
+
+en el disparador que esta ok, observamos snyk y codeql que ejecutar los análisis satisfactoriamente, además observamos que dependency-review no corre debido a que estamos generando un push directo desde la rama main, y funciona solamente desde un pull request
+
+
+### visualización de analisis
+![workflows](docs/screenshots/14.png.png)
+
+### visualización de analisis
+![workflows](docs/screenshots/15.png.png)
+
+
+hacemos la prueba y desde otra rama ejecutamos pull request, y al observar nos damos cuenta que dependency-review analiza nuestro codigo
+
+### visualización de analisis
+![workflows](docs/screenshots/16.png.png)
+
+
+podemos observar desde la pestaña seguridad, en escaneo de códigos, ciertas vulnerabilidades
+
+### visualización vulnerabilidades desde github
+![workflows](docs/screenshots/17.png.png)
+
+
+¿Qué significa “Escaneo de códigos: Todas las herramientas funcionan como se esperan
+Significa que el workflow de seguridad corrió correctamente.
+Las herramientas como CodeQL, Snyk y Dependency Review se ejecutaron sin errores.
+GitHub detectó vulnerabilidades en tu código gracias a CodeQL.
+
+Alertas detectadas por CodeQL
+Estas son vulnerabilidades reales en tu código fuente, clasificadas por severidad:
+
+### vulnerabilidades encontradas
+![workflows](docs/screenshots/18.png.png)
+
+
+¿Por qué es importante?
+Estas alertas te ayudan a identificar y corregir vulnerabilidades antes de que lleguen a producción.
+CodeQL hace análisis estático del código y detecta patrones inseguros automáticamente.
+Cada alerta tiene un número (#1, #2, #3) y está abierta en la rama main, lo que significa que aún no han sido corregidas.
+
+
+
+### Configuración de Docker scout
+![workflows](docs/screenshots/19.png.png)
+
+
+Explicación de cada paso
+Build Docker image: construye la imagen de tu aplicación con el tag pr-${{ github.run_id }} (único por ejecución).
+Docker Scout scan: analiza esa imagen.
+only-severities: critical,high → solo considera vulnerabilidades graves.
+exit-code: true → si encuentra alguna, el job falla y el pipeline se detiene.
+Resultado esperado
+En cada push a develop y pull request a main, Docker Scout construirá la imagen y la escaneará.
+Si hay vulnerabilidades críticas o altas, el pipeline marcará error y no se publicará la imagen en Docker Hub.
+Si todo está limpio, el job pasa en verde y el flujo continúa.
+
+
+### Configuración de Docker scout
+![workflows](docs/screenshots/20.png.png)
+
+
+Qué logramos con esto
+needs: asegura que el job de publicación solo corre si todos los análisis previos pasaron.
+if: añade condiciones extra para que en PRs también se validen SonarCloud y Dependency Review.
+docker login: usa tus secrets DOCKERHUB_USERNAME y DOCKERHUB_TOKEN.
+build & push: publica la imagen con dos tags: el SHA del commit y latest.
+
+Flujo completo
+Push a develop → se construye la imagen, se escanea con Docker Scout, Snyk, CodeQL, y si todo pasa, se publica en Docker Hub.
+Pull request a main → además de lo anterior, corren SonarCloud y Dependency Review; si pasan, se publica.
+Quality gates → cualquier vulnerabilidad crítica o alta bloquea el despliegue.
+
+Construcción de la imagen
+
+Se genera la imagen de tu aplicación en cada push a develop y PR a main.
+Tag único por ejecución (pr-${{ github.run_id }} o el SHA del commit).
+Escaneo con Docker Scout
+Analiza la imagen recién construida.
+Si detecta vulnerabilidades críticas o altas, el job falla y el pipeline se detiene.
+Esto asegura que no publiques imágenes inseguras.
+Publicación condicionada en Docker Hub
+Solo si Docker Scout, Snyk, CodeQL, Dependency Review y SonarCloud pasan en verde.
+Se publica con dos tags: el SHA del commit y latest.
+
+
+Se crea un pull request para verificar el funcionamiento y la sincronización de Docker scout
+
+### pull request
+![workflows](docs/screenshots/21.png.png)
+
+
+
+### código Dockerfile
+![workflows](docs/screenshots/22.png.png)
+
+¿Por qué Husky da problemas?
+Husky es una librería que instala git hooks (pre-commit, pre-push, etc.).
+Durante npm ci, Husky ejecuta su script prepare para instalar esos hooks.
+En un contenedor Docker:
+No hay .git ni entorno de desarrollo.
+Alpine es minimalista y carece de herramientas como git.
+Resultado: Husky falla con exit code 127.
+
+Repercusiones de desactivar Husky en Docker
+En desarrollo local: Husky sigue funcionando, instalando hooks y evitando commits con errores.
+En Docker/producción: Husky se desactiva porque no tiene sentido instalar hooks dentro de un contenedor.
+Impacto real: ninguno en producción. Los hooks son solo para el flujo de trabajo de los desarrolladores, no para la ejecución de la aplicación.
+
+En otras palabras: desactivar Husky en Docker es correcto y no afecta la seguridad ni la funcionalidad de tu app en producción.
+Conclusión
+El Dockerfile multi-stage asegura que tu imagen final sea ligera y optimizada.
+Husky debe desactivarse en contenedores porque sus hooks no aplican en producción.
+La repercusión es mínima: pierdes los hooks dentro del contenedor, pero mantienes la funcionalidad en tu repo local.
+
+
+Creación de imagen Docker con build 
+
+### imagen con Dockerbuild
+![workflows](docs/screenshots/23.png.png)
+
+se puede observar en los flujos de trabajo con el CI se despliega correctamente y el Docker Build de la misma forma. En security pipeline nos damos cuenta que el despliegue no fue exitoso. Al momento de detectar una vulnerabilidad quiebra la integración
+
+
+### imagen con Dockerbuild
+![workflows](docs/screenshots/24.png.png)
+
+Visualizamos el análisis desde snyk y codeql exitoso y por la vulnerabilidad de incompatibilidad entre versiones con Windows se genera un break
+
+### analisis
+![workflows](docs/screenshots/25.png.png)
 
 
 
