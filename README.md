@@ -1,6 +1,7 @@
 configuración codeSQL y synk
 configuración de DockerScot
 configuración token Docker.
+configuración build.
 
 # Github NPM Registry
 
