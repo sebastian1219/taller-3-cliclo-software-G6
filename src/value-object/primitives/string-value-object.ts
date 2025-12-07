@@ -10,7 +10,7 @@ export abstract class StringValueObject {
   }
 
   isEmpty(): boolean {
-    return this.value == null || this.value.trim() === "";
+    return this.value == null || this.value.trim() === '';
   }
 
   differentTo(anotherValue: string): boolean {

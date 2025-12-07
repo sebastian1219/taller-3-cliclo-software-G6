@@ -1,5 +1,5 @@
 
-import { StringValueObject } from "./string-value-object";
+import { StringValueObject } from './string-value-object';
 
 export abstract class DateValueObject extends StringValueObject {
   readonly value: string;
@@ -18,7 +18,7 @@ export abstract class DateValueObject extends StringValueObject {
   }
 
   public format(date: string): string {
-    return new Date(date).toISOString().split("T")[0]; // YYYY-MM-DD
+    return new Date(date).toISOString().split('T')[0]; // YYYY-MM-DD
   }
 
   public isBetweenTheDates(startDate: string, lastDate: string): boolean {
