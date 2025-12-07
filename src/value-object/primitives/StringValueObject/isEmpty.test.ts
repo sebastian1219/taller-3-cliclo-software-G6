@@ -1,6 +1,5 @@
 import { StringValueObject } from "../../../../src/value-object/primitives/string-value-object";
 
-// Creamos una subclase concreta para poder instanciar
 class TestStringValueObject extends StringValueObject {}
 
 describe("StringValueObject › isEmpty", () => {
@@ -26,3 +25,4 @@ describe("StringValueObject › isEmpty", () => {
     expect(objUndefined.isEmpty()).toBe(true);
   });
 });
+

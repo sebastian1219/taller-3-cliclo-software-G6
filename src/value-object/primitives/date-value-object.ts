@@ -1,37 +1,39 @@
-import { StringValueObject } from './string-value-object';
+
+import { StringValueObject } from "./string-value-object";
 
 export abstract class DateValueObject extends StringValueObject {
   readonly value: string;
 
   constructor(value: string) {
     super(value);
-    this.checkDateIsValue(value);
+    this.checkDateIsValid(value);
     this.value = this.format(value);
   }
 
-  private checkDateIsValue(date: string): void {
-    if (!Number.isNaN(new Date(date).getTime())) {
+  private checkDateIsValid(date: string): void {
+    // Si la fecha es inválida, lanza error
+    if (Number.isNaN(new Date(date).getTime())) {
       this.throwErrorForInvalidDate(date);
     }
   }
 
   public format(date: string): string {
-    return new Date(date).toISOString();
+    return new Date(date).toISOString().split("T")[0]; // YYYY-MM-DD
   }
 
   public isBetweenTheDates(startDate: string, lastDate: string): boolean {
-    this.checkDateIsValue(startDate);
-    this.checkDateIsValue(lastDate);
+    this.checkDateIsValid(startDate);
+    this.checkDateIsValid(lastDate);
     return this.isAfterThisDate(startDate) && this.isBeforeThisDate(lastDate);
   }
 
   public isBeforeThisDate(anotherDate: string): boolean {
-    this.checkDateIsValue(anotherDate);
+    this.checkDateIsValid(anotherDate);
     return this.value < this.format(anotherDate);
   }
 
   public isAfterThisDate(anotherDate: string): boolean {
-    this.checkDateIsValue(anotherDate);
+    this.checkDateIsValid(anotherDate);
     return this.value > this.format(anotherDate);
   }
 
