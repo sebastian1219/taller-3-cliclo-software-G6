@@ -6,3 +6,7 @@ global.fetch = jest.fn(() =>
     json: () => Promise.resolve({ data: "fake response" }),
   })
 );
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
