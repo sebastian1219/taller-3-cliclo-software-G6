@@ -93,14 +93,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE=myapp
           docker build -t ${IMAGE}:pr-${{ github.run_id }} .
 
       - name: Docker Scout scan
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ${{ github.repository }}:pr-${{ github.run_id }}
+          image: myapp:pr-${{ github.run_id }}
           only-severities: critical,high
           exit-code: true
           local: true
