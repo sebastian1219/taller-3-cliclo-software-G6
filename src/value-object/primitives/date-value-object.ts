@@ -2,11 +2,13 @@ import { StringValueObject } from './string-value-object';
 
 export abstract class DateValueObject extends StringValueObject {
   constructor(value: string) {
-    // primero validamos
+    // validamos antes de formatear
     if (Number.isNaN(new Date(value).getTime())) {
       // delegamos en la implementación concreta
-      // (no puedes llamar a this.throwErrorForInvalidDate aquí porque aún no existe this)
-      throw new Error(`Invalid date: ${value}`);
+      // aquí sí puedes usar throwErrorForInvalidDate porque ya existe this
+      // pero como aún no se ha llamado super, no hay this disponible
+      // por eso lanzamos un error genérico y dejamos que la subclase lo maneje
+      throw new Error("Invalid date value");
     }
 
     // formateamos antes de pasar al padre
@@ -32,5 +34,4 @@ export abstract class DateValueObject extends StringValueObject {
 
   protected abstract throwErrorForInvalidDate(value: string): void;
 }
-
 
