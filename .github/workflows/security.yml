@@ -69,7 +69,12 @@ jobs:
       - name: Run tests with coverage
         run: npm test -- --coverage
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+           -Dsonar.projectKey=sebastian1219_taller-3-cliclo-software-G6
+           -Dsonar.organization=sebastian1219
+           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
