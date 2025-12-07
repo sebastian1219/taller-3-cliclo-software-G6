@@ -23,8 +23,10 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 
-# Instalamos solo dependencias de producción (sin husky ni dev)
-RUN npm ci --omit=dev --legacy-peer-deps
+# Desactivamos husky para evitar errores en contenedor
+RUN npm set-script prepare "" \
+    && npm ci --omit=dev --legacy-peer-deps
 
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
+
