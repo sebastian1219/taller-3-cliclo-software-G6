@@ -21,11 +21,13 @@ WORKDIR /app
 
 # Copiamos solo lo necesario desde la etapa de build
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
+# 🔑 Aquí añadimos también el package-lock.json
+COPY --from=builder /app/package.json /app/package-lock.json ./
 
 # Instalamos solo dependencias de producción
 RUN npm ci --omit=dev --legacy-peer-deps --ignore-scripts
 
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
+
 
