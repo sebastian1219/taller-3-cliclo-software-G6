@@ -17,7 +17,7 @@
     "importHelpers": true,
     "rootDir": "./src",
     "outDir": "./dist",
-    "lib": ["ES6", "DOM", "esnext.disposable"]
+    "lib": ["ES6", "DOM", "esnext"]
     
   },
   "include": ["src/**/*"],
