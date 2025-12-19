@@ -16,7 +16,7 @@
     "isolatedModules": true,
     "importHelpers": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
     "lib": ["ES6", "DOM", "esnext"]
     
   },
