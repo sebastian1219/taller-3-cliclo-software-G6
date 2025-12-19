@@ -1,4 +1,4 @@
-Introducción
+Introducción.
 
 este proyecto corresponde a la tercera entrega del área ciclo de software. el objetivo es demostrar como integrar buenas practicas de desarrollo moderno en un flujo automatizado que garantice reproducibilidad, calidad del código y seguridad en las dependencias.
 
